@@ -17,7 +17,7 @@ class Student
     # remember each row should be a new instance of the Student class
     sql = <<-SQL
       SELECT *
-      FROM students
+      FROM students;
       SQL
 
     DB[:conn].execute(sql).map {|row| self.new_from_db(row)}
@@ -29,15 +29,16 @@ class Student
     sql = <<-SQL
       SELECT * FROM students
       WHERE name = ?
-      LIMIT 1
+      LIMIT 1;
     SQL
+
     DB[:conn].execute(sql, name).map {|row| self.new_from_db(row)}.first
   end
 
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade)
-      VALUES (?, ?)
+      VALUES (?, ?);
     SQL
 
     DB[:conn].execute(sql, self.name, self.grade)
@@ -49,21 +50,22 @@ class Student
       id INTEGER PRIMARY KEY,
       name TEXT,
       grade TEXT
-    )
+    );
     SQL
 
     DB[:conn].execute(sql)
   end
 
   def self.drop_table
-    sql = "DROP TABLE IF EXISTS students"
+    sql = "DROP TABLE IF EXISTS students";
+
     DB[:conn].execute(sql)
   end
 
   def self.all_students_in_grade_9
     sql = <<-SQL
       SELECT * FROM students
-      WHERE grade = 9
+      WHERE grade = 9;
     SQL
 
     DB[:conn].execute(sql).map {|row| self.new_from_db(row)}
@@ -72,7 +74,7 @@ class Student
   def self.students_below_12th_grade
     sql = <<-SQL
       SELECT * FROM students
-      WHERE grade <= 11
+      WHERE grade <= 11;
     SQL
 
     DB[:conn].execute(sql).map {|row| self.new_from_db(row)}
@@ -82,7 +84,7 @@ class Student
     sql = <<-SQL
       SELECT * FROM students
       WHERE grade = 10
-      LIMIT ?
+      LIMIT ?;
     SQL
 
     DB[:conn].execute(sql, number).map {|row| self.new_from_db(row)}
@@ -92,7 +94,7 @@ class Student
     sql = <<-SQL
       SELECT * FROM students
       WHERE grade = 10
-      LIMIT 1
+      LIMIT 1;
     SQL
 
     DB[:conn].execute(sql).map {|row| self.new_from_db(row)}.first
@@ -101,7 +103,7 @@ class Student
   def self.all_students_in_grade_X(grade)
     sql = <<-SQL
       SELECT * FROM students
-      WHERE grade = ?
+      WHERE grade = ?;
     SQL
 
     DB[:conn].execute(sql,grade).each {|row| self.new_from_db(row)}
